@@ -19,14 +19,19 @@ RegisterCommand('migrate', function(source, args, rawCommand)
 end, true)
 
 function migrateVehicles()
+
+
+
 	MySQL.Async.fetchAll('SELECT * FROM owned_vehicles', {}, function(result)
 		for i=1, #result, 1 do
 			Citizen.Wait(0)
 			local vehicleProps  = json.decode(result[i].vehicle)
 			local vehicle       = json.decode(result[i].vehicle) -- old vehicle
+			local id			= result[i].id
 			vehicleProps.plate  = GeneratePlate()                -- generate plate
+			
 
-			migrateVehicle(vehicleProps, vehicle)
+			migrateVehicle(vehicleProps, vehicle, id)
 		end
 
 		print('\n\n\n')
@@ -44,7 +49,7 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function migrateVehicle(vehicleProps, vehicleOld)
+function migrateVehicle(vehicleProps, vehicleOld, id)
 	while currentExecuting > Config.MaxMigrates do
 		Citizen.Wait(0)
 	end
@@ -52,11 +57,12 @@ function migrateVehicle(vehicleProps, vehicleOld)
 	io.write('esx_migrate: migrating . . . ')
 	currentExecuting = currentExecuting + 1
 
-	MySQL.Async.execute('UPDATE `owned_vehicles` SET `vehicle` = @vehicleNew, `plate` = @plateNew WHERE `vehicle` LIKE "%' .. vehicleOld.plate .. '%"',
+	MySQL.Async.execute('UPDATE `owned_vehicles` SET `vehicle` = @vehicleNew, `plate` = @plateNew WHERE  `id` = @id',
 	{
 		['@vehicleNew'] = json.encode(vehicleProps),
 		['@plateNew']   = vehicleProps.plate,
-		['@plateOld']   = vehicleOld.plate
+		['@plateOld']   = vehicleOld.plate,
+		['@id']         = id
 	}, function(rowsChanged)
 		io.write('OK! (' .. vehicleOld.plate .. ' > ' .. vehicleProps.plate .. ')\n')
 		currentExecuting = currentExecuting - 1
@@ -71,9 +77,9 @@ function GeneratePlate()
 	while true do
 
 		if Config.PlateUseSpace then
-			generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. ' ' .. GetRandomNumber(Config.PlateNumbers))
+			generatedPlate = string.upper(GetRandomLetter(Config.PlateLettersStart) .. ' ' .. GetRandomNumber(Config.PlateNumbers))
 		else
-			generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. GetRandomNumber(Config.PlateNumbers))
+			generatedPlate = string.upper(GetRandomLetter(Config.PlateLettersStart) .. GetRandomNumber(Config.PlateNumbers))
 		end
 
 		if IsPlateTaken(generatedPlate) then
