@@ -77,9 +77,9 @@ function GeneratePlate()
 	while true do
 
 		if Config.PlateUseSpace then
-			generatedPlate = string.upper(GetRandomLetter(Config.PlateLettersStart) .. ' ' .. GetRandomNumber(Config.PlateNumbers))
+			generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. ' ' .. GetRandomNumber(Config.PlateNumbers))
 		else
-			generatedPlate = string.upper(GetRandomLetter(Config.PlateLettersStart) .. GetRandomNumber(Config.PlateNumbers))
+			generatedPlate = string.upper(GetRandomLetter(Config.PlateLetters) .. GetRandomNumber(Config.PlateNumbers))
 		end
 
 		if IsPlateTaken(generatedPlate) then
