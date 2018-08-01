@@ -1,4 +1,13 @@
 # esx_migrate
+
+## READ CAREFULLY AS THIS IS INTENDED TO BE USED ONLY IF YOU NEED TO REPLACE PLATES FOR DOUBLED VEHICLES IN DATABASE. (as happened in my server with more than 2000 bought vehicles..)
+
+
+## FOR MY SCRIPT TO WORK YOU MUST DO THE NEXT STEP IN 2 DIFFERENT STEPS:
+1. DO NOT REMOVE THE id KEY 
+2. USE MIGRATE COMMAND IN CMD (no players connected it's better)
+3. AFTER YOU FINISHED REPLACING ALL THE PLATES YOU CAN REMOVE THE id KEY AND SET plate KEY AS PRIMARY
+
 This script migrates the 'old' `owned_vehicles` database to an improved system. Very basic script and does the job.
 
 Don't forget to change the database to look like this, see how `plate` is the primary key.
