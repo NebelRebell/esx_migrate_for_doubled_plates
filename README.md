@@ -4,9 +4,9 @@
 
 
 ## FOR MY SCRIPT TO WORK YOU MUST DO THE NEXT STEP IN 3 DIFFERENT STEPS:
-1. DO NOT REMOVE THE id KEY 
-2. USE MIGRATE COMMAND IN CMD (no players connected it's better)
-3. AFTER YOU FINISHED REPLACING ALL THE PLATES YOU CAN REMOVE THE id KEY AND SET plate KEY AS PRIMARY
+## 1. IMPORT BEFORE.SQL ON ESSENTIALMODE ROOT TABLE
+## 2. USE MIGRATE COMMAND IN CMD (no players connected it's better)
+## 3. AFTER YOU FINISHED REPLACING ALL THE PLATES IMPORT AFTER.SQL ON YOUR ESSENTIALMODE ROOT TABLE
 
 This script migrates the 'old' `owned_vehicles` database to an improved system. Very basic script and does the job.
 
